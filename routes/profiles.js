@@ -1,21 +1,16 @@
-let express = require("express")
-let router = express.Router()
-let { PrismaClient } = require("@prisma/client")
+const express = require("express")
+const router = express.Router()
+const { PrismaClient } = require("@prisma/client")
+const user = require("../public/javascripts/user/userServices")
 
-let prisma = new PrismaClient()
+const prisma = new PrismaClient()
 
 router.get("/", async (req, res) => {
   try {
-    let users = await prisma.user.findMany({
-      skip: req.query.page * req.query.quantity - req.query.quantity,
-      take: +req.query.quantity,
-      orderBy: {
-        registerdate: "asc",
-      },
-    })
-    return res.status(200).json({
-      users,
-    })
+    const response = await user.getUsers(+req.query.page, +req.query.quantity)
+    return res.status(response.code).json(
+      response.users
+    )
   } catch (error) {
     console.log(error)
   }

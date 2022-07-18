@@ -1,9 +1,9 @@
-let key = require("../key/index")
-let jwt = require("jsonwebtoken")
+const key = require("../key/index")
+const jwt = require("jsonwebtoken")
 
 function auth(req, res, next) {
   try {
-    let token = req.headers["authorization"]
+    const token = req.headers["authorization"]
     if (!token) {
       return res.send("сначала авторизуйтесь")
     }
